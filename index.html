@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skylink — Connecting What Matters</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f2ec;
+    --sky: #1a3c5e;
+    --accent: #c9a84c;
+    --muted: #8a8a8a;
+    --light-border: rgba(13,13,13,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light-border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--sky); text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink); font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.65rem 1.6rem; border: 1px solid var(--sky);
+    background: var(--sky); color: #fff;
+    text-decoration: none; font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: transparent; color: var(--sky); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 6rem 6rem;
+    animation: fadeUp 1s ease both;
+  }
+  .hero-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 5.5vw, 5.5rem);
+    font-weight: 300; line-height: 1.08;
+    color: var(--sky); margin-bottom: 2rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    font-size: 1.05rem; line-height: 1.75; color: #444;
+    max-width: 420px; margin-bottom: 3rem;
+  }
+  .btn-group { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    padding: 1rem 2.4rem; background: var(--sky); color: #fff;
+    text-decoration: none; font-size: 0.8rem; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 500;
+    transition: background 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-ghost {
+    padding: 1rem 2.4rem; border: 1px solid var(--ink); color: var(--ink);
+    text-decoration: none; font-size: 0.8rem; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 500;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-right {
+    position: relative; background: var(--sky);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    animation: fadeIn 1.2s ease both 0.3s;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 60px,
+      rgba(255,255,255,0.03) 60px, rgba(255,255,255,0.03) 61px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 60px,
+      rgba(255,255,255,0.03) 60px, rgba(255,255,255,0.03) 61px
+    );
+  }
+  .hero-graphic {
+    position: relative; z-index: 1;
+    text-align: center; padding: 3rem;
+  }
+  .hero-circle {
+    width: 280px; height: 280px; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.4);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+    animation: rotateSlow 20s linear infinite;
+  }
+  .hero-circle::before {
+    content: '';
+    position: absolute; inset: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-circle::after {
+    content: '';
+    position: absolute; inset: 50px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .hero-icon {
+    font-size: 4rem; z-index: 2; position: relative;
+    animation: rotateSlow 20s linear infinite reverse;
+  }
+  .hero-stat-row {
+    display: flex; gap: 2rem; justify-content: center;
+    margin-top: 2rem;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; color: #fff;
+    display: block;
+  }
+  .hero-stat-label {
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    background: var(--sky); padding: 1.2rem 0;
+    overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .marquee-track {
+    display: flex; gap: 0; white-space: nowrap;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 1rem;
+    padding: 0 2.5rem;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); font-weight: 500;
+  }
+  .marquee-dot { color: var(--accent); font-size: 1.2rem; }
+
+  /* ─── ABOUT ─── */
+  #about {
+    padding: 8rem 6rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center;
+  }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-tag::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+    font-weight: 300; line-height: 1.15; color: var(--sky);
+    margin-bottom: 1.8rem;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  p { font-size: 1rem; line-height: 1.8; color: #555; margin-bottom: 1.2rem; }
+  .about-values {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .value-card {
+    padding: 1.5rem; border: 1px solid var(--light-border);
+    background: #fff; transition: border-color 0.2s, transform 0.2s;
+  }
+  .value-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .value-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+  .value-title { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--sky); margin-bottom: 0.3rem; }
+  .value-desc { font-size: 0.88rem; color: #777; line-height: 1.6; }
+  .about-visual {
+    position: relative; height: 500px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-bg-rect {
+    position: absolute; inset: 40px 0 0 40px;
+    background: var(--sky); opacity: 0.06;
+  }
+  .about-card {
+    position: relative; z-index: 1;
+    background: var(--sky); color: #fff;
+    padding: 3rem; width: 340px;
+    border-left: 4px solid var(--accent);
+  }
+  .about-card-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; line-height: 1.4;
+    margin-bottom: 1.5rem; font-style: italic;
+  }
+  .about-card-sig { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+
+  /* ─── SERVICES ─── */
+  #services {
+    padding: 8rem 6rem;
+    background: var(--sky);
+  }
+  .services-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .services-header .section-tag::before { background: rgba(201,168,76,0.6); }
+  .services-header h2 { color: #fff; margin-bottom: 0; }
+  .services-header h2 em { color: var(--accent); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+    background: rgba(255,255,255,0.08);
+  }
+  .service-card {
+    background: var(--sky); padding: 3rem 2.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.3s;
+    position: relative; overflow: hidden; cursor: default;
+  }
+  .service-card::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent); transform: scaleX(0);
+    transform-origin: left; transition: transform 0.3s;
+  }
+  .service-card:hover { background: rgba(255,255,255,0.05); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300; color: rgba(201,168,76,0.2);
+    line-height: 1; margin-bottom: 1.5rem; display: block;
+  }
+  .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .service-title {
+    font-size: 1rem; font-weight: 500; color: #fff;
+    letter-spacing: 0.05em; margin-bottom: 1rem;
+  }
+  .service-desc { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+  /* ─── WHY US ─── */
+  #why {
+    padding: 8rem 6rem;
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem;
+    align-items: start;
+  }
+  .why-sticky { position: sticky; top: 120px; }
+  .why-list { display: flex; flex-direction: column; gap: 0; }
+  .why-item {
+    padding: 2rem 0; border-bottom: 1px solid var(--light-border);
+    display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
+    align-items: start; transition: padding-left 0.2s;
+  }
+  .why-item:hover { padding-left: 0.5rem; }
+  .why-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300; color: var(--accent); padding-top: 2px;
+  }
+  .why-title { font-size: 1rem; font-weight: 500; color: var(--sky); margin-bottom: 0.5rem; }
+  .why-text { font-size: 0.9rem; color: #666; line-height: 1.7; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding: 8rem 6rem;
+    background: var(--ink); color: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+  #contact .section-tag { color: var(--accent); }
+  #contact .section-tag::before { background: var(--accent); }
+  #contact h2 { color: var(--paper); }
+  #contact p { color: rgba(245,242,236,0.6); }
+  .contact-info { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-row { display: flex; align-items: center; gap: 1rem; }
+  .contact-row-icon { font-size: 1.2rem; width: 2.5rem; }
+  .contact-row-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.1rem; }
+  .contact-row-val { font-size: 0.95rem; color: rgba(245,242,236,0.8); }
+
+  form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,242,236,0.5); display: block; margin-bottom: 0.4rem; }
+  input, textarea, select {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); color: var(--paper);
+    padding: 0.85rem 1rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 120px; }
+  select option { background: #1a1a1a; }
+  .form-submit {
+    padding: 1rem 2.5rem; background: var(--accent); color: var(--ink);
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    font-weight: 500; align-self: flex-start;
+    transition: opacity 0.2s;
+  }
+  .form-submit:hover { opacity: 0.85; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080808; color: rgba(255,255,255,0.35);
+    padding: 2.5rem 6rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: rgba(255,255,255,0.6);
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.75rem; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 300px; }
+    .hero-left { padding: 4rem 2rem; }
+    #about, #why, #contact { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 3rem; }
+    #services { padding: 4rem 2rem; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Sky<span>link</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Skylink — Connecting What Matters</div>
+    <h1>Precision.<br><em>Clarity.</em><br>Excellence.</h1>
+    <p class="hero-desc">Skylink delivers world-class products and services built on a foundation of accuracy, integrity, and disciplined execution — so you can focus on what you do best.</p>
+    <div class="btn-group">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-ghost">Contact Us</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-graphic">
+      <div class="hero-circle">
+        <div class="hero-icon">🛰️</div>
+      </div>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <span class="hero-stat-num">10+</span>
+          <span class="hero-stat-label">Years</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">500+</span>
+          <span class="hero-stat-label">Clients</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">99%</span>
+          <span class="hero-stat-label">Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Accuracy <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Integrity <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Discipline <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Clarity <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Excellence <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Precision <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Reliability <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Trust <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Accuracy <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Integrity <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Discipline <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Clarity <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Excellence <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Precision <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Reliability <span class="marquee-dot">·</span></span>
+    <span class="marquee-item">Trust <span class="marquee-dot">·</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-tag">Who We Are</div>
+    <h2>Built on a<br><em>Culture of</em><br>Excellence</h2>
+    <p>Skylink was founded on the belief that great service is not about impressing clients — it is about earning their trust through consistency, discipline, and unwavering accuracy.</p>
+    <p>We operate with a simple mandate: understand deeply before you act, and act with precision every single time.</p>
+    <div class="about-values">
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <div class="value-title">Accuracy First</div>
+        <div class="value-desc">We verify before we deliver. Every number, every name, every detail.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div class="value-title">Earned Trust</div>
+        <div class="value-desc">Trust is built quietly through reliability, not by announcement.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⏱️</div>
+        <div class="value-title">Time Respect</div>
+        <div class="value-desc">We value your time as much as our own. Punctuality is a promise.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <div class="value-title">Confidentiality</div>
+        <div class="value-desc">Your information stays yours. Discretion is non-negotiable.</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual reveal">
+    <div class="about-bg-rect"></div>
+    <div class="about-card">
+      <div class="about-card-quote">"Clarity over confidence. Accuracy over speed. Trust earned quietly."</div>
+      <div class="about-card-sig">— Skylink Core Mandate</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-tag">What We Do</div>
+      <h2>Our <em>Products</em><br>& Services</h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <div class="service-icon">📡</div>
+      <div class="service-title">Connectivity Solutions</div>
+      <div class="service-desc">High-performance networking infrastructure designed for reliability, scalability, and uninterrupted uptime across all environments.</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">02</span>
+      <div class="service-icon">🛡️</div>
+      <div class="service-title">Enterprise Security</div>
+      <div class="service-desc">End-to-end security protocols that safeguard your assets, data, and communications with zero compromise.</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">03</span>
+      <div class="service-icon">⚙️</div>
+      <div class="service-title">Managed Operations</div>
+      <div class="service-desc">Dedicated operational support and management so your business runs smoothly without disruption or delay.</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">04</span>
+      <div class="service-icon">📊</div>
+      <div class="service-title">Data & Analytics</div>
+      <div class="service-desc">Structured intelligence from raw data — turning numbers into decisions that drive measurable business outcomes.</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">05</span>
+      <div class="service-icon">🌐</div>
+      <div class="service-title">Digital Integration</div>
+      <div class="service-desc">Seamless integration of digital tools and platforms to unify your operations and amplify team performance.</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">06</span>
+      <div class="service-icon">🤝</div>
+      <div class="service-title">Client Support</div>
+      <div class="service-desc">Responsive, precise, and professional support — available when you need it, resolving issues before they escalate.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-sticky reveal">
+    <div class="section-tag">Why Skylink</div>
+    <h2>The Skylink<br><em>Difference</em></h2>
+    <p>In a world of noise, we offer something rare — structured, disciplined, and transparent delivery you can count on every time.</p>
+  </div>
+  <div class="why-list">
+    <div class="why-item reveal">
+      <div class="why-num">01</div>
+      <div>
+        <div class="why-title">Accuracy Over Everything</div>
+        <div class="why-text">We never rush to impress. We take the time to get it right — because speed without accuracy is failure dressed as efficiency.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-num">02</div>
+      <div>
+        <div class="why-title">Structured Communication</div>
+        <div class="why-text">Every update is clear, concise, and documented. No ambiguity, no surprises — just clean, structured communication.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-num">03</div>
+      <div>
+        <div class="why-title">Disciplined Execution</div>
+        <div class="why-text">Our teams follow protocols that eliminate errors. Discipline is not a policy — it is how we think and operate.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-num">04</div>
+      <div>
+        <div class="why-title">Trusted by Leaders</div>
+        <div class="why-text">From managing directors to frontline teams, Skylink is the partner of choice for those who demand the highest standard.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-num">05</div>
+      <div>
+        <div class="why-title">Consistent Reliability</div>
+        <div class="why-text">Our track record speaks without fanfare. Clients return because we deliver — every time, without exception.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-tag">Let's Connect</div>
+    <h2>Start a<br><em>Conversation</em></h2>
+    <p>Whether you're exploring our services or ready to partner with us, we respond with precision and without delay.</p>
+    <div class="contact-info">
+      <div class="contact-row">
+        <div class="contact-row-icon">📧</div>
+        <div>
+          <div class="contact-row-label">Email</div>
+          <div class="contact-row-val">info@skylink.com</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-row-icon">📞</div>
+        <div>
+          <div class="contact-row-label">Phone</div>
+          <div class="contact-row-val">+1 (800) SKYLINK</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-row-icon">📍</div>
+        <div>
+          <div class="contact-row-label">Location</div>
+          <div class="contact-row-val">Skylink HQ, Business District</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="reveal" onsubmit="handleSubmit(event)">
+    <div class="form-group">
+      <div>
+        <label>First Name</label>
+        <input type="text" placeholder="John" required>
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input type="text" placeholder="Doe" required>
+      </div>
+    </div>
+    <div>
+      <label>Email Address</label>
+      <input type="email" placeholder="john@company.com" required>
+    </div>
+    <div>
+      <label>Service of Interest</label>
+      <select>
+        <option value="">Select a service...</option>
+        <option>Connectivity Solutions</option>
+        <option>Enterprise Security</option>
+        <option>Managed Operations</option>
+        <option>Data & Analytics</option>
+        <option>Digital Integration</option>
+        <option>Client Support</option>
+      </select>
+    </div>
+    <div>
+      <label>Message</label>
+      <textarea placeholder="Tell us about your requirements..."></textarea>
+    </div>
+    <button type="submit" class="form-submit">Send Inquiry →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Sky<span>link</span></div>
+  <p>© 2025 Skylink. All rights reserved. Accuracy · Integrity · Excellence.</p>
+  <p>Connecting What Matters</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Inquiry Sent';
+    btn.style.background = '#2e7d52';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Send Inquiry →';
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
